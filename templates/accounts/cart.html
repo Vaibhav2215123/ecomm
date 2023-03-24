@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+{% block start %}
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Product</th>
+                                <th scope="col" width="120">Quantity</th>
+                                <th scope="col" width="120">Price</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart_item in cart.cart_items.all %}
+                                {% if '{{request.user.profile.get_cart_count}}' is 0 %}
+                                <tr>Cart is Empty</tr>
+                                {% else %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside">
+                                            <div class="aside"><img src="/media/{{cart_item.product.product_images.first.image}}"
+                                                    class="img-sm">
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href="#" class="title text-dark"> {{ cart_item.product.product_description }} </a>
+                                                {% if "{{ cart_item.size_variant }}" is None %}
+                                                <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
+                                                {% endif %}
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <div class="form-control" fdprocessedid="0fv9xl">
+                                            {{request.user.profile.get_cart_count}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+                                    <td class="text-right">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                        <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="card-body border-top">
+                        <a href="#" class="btn btn-primary float-md-right"> Make Purchase <i
+                                class="fa fa-chevron-right"></i> </a>
+                        <a href="#" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+                    </div>
+                </div> <!-- card.// -->
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+                </div>
+
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form method='POST'>
+                            {% include "base/alert.html" %}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Have coupon?</label>
+                                <div class="input-group">
+                                    <input type="text" name="coupon" class="form-control" name=""
+                                        placeholder="Coupon code" fdprocessedid="9g8o3l">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary"
+                                            fdprocessedid="iyq3le">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                            {% if cart.coupon %}
+                            <a href="{% url 'remove_coupon' cart.uid %}"
+                                class="btn btn-success">{{cart.coupon.coupon_code}} <i class="fa fa-times"></i></a>
+                            {% endif %}
+                        </form>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card .// -->
+                <div class="card">
+                    <div class="card-body">
+
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right  h5"><strong>{{cart.get_cart_total}}</strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="/media/images/misc/payments.png" height="26">
+                        </p>
+
+                    </div> <!-- card-body.// -->
+                </div> <!-- card .// -->
+            </aside> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+
+{% endblock %}
