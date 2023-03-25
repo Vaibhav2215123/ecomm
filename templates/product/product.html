@@ -75,11 +75,11 @@
                 <label>Quantity</label>
                 <div class="input-group mb-3 input-spinner">
                   <div class="input-group-prepend">
-                    <button class="btn btn-light" type="button" id="button-plus"> + </button>
+                    <button class="btn btn-light" onclick="add()" type="button" id="button-plus"> + </button>
                   </div>
-                  <input type="text" class="form-control" value="1">
+                  <input type="text" class="form-control" value="1" inputmode="numeric" id="quantity">
                   <div class="input-group-append">
-                    <button class="btn btn-light" type="button" id="button-minus"> − </button>
+                    <button class="btn btn-light" onclick="subtract()" type="button" id="button-minus"> − </button>
                   </div>
                 </div>
               </div> <!-- col.// -->
@@ -91,7 +91,7 @@
 
                   <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" onchange="get_correct_price('{{size.size_name}}')" name="variant" 
-                    {% if selected_size == "{{  size.size_name }}" %} checked  {% endif %} class="custom-control-input">
+                    {% if selected_size == "{{  size.size_name }}" %} checked {% endif %} class="custom-control-input">
                     <div class="custom-control-label">{{size.size_name}}</div>
                   </label>
 
@@ -118,6 +118,21 @@
 <script>
   function get_correct_price(size) {
     window.location.href = window.location.pathname + `?size=${size}`;
+  }
+  quantityValue = document.getElementById("quantity")
+  function add() {
+    quantityValue.value=Number(quantityValue.value)+1;
+    // console.log(document.getElementById("quantity").value)
+  }
+  function subtract() {
+    if (quantityValue.value > 1){
+      quantityValue.value=Number(quantityValue.value)-1;
+    }
+    // else{
+    //   pass()
+    //   // alert("Quantity Must Be Atleast 1")
+    // }
+    // console.log(document.getElementById("quantity").value)
   }
 </script>
 {% endblock %}
