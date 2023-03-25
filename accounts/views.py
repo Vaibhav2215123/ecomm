@@ -82,15 +82,18 @@ def add_to_cart(request , uid):
     product = Product.objects.get(uid = uid)
     user = request.user
     cart , _ = Cart.objects.get_or_create(user = user , is_paid = False)
-
-    cart_item = CartItems.objects.create(cart = cart , product = product)
-
     if variant:
         variant = request.GET.get('size')
-        size_variant = SizeVariant.objects.get(size_name = variant)
-        cart_item.size_variant = size_variant
-        cart_item.save()
-
+        quantity = int(request.GET.get('quantity'))
+        print(quantity)
+        while quantity > 0 :
+            cart_item = CartItems.objects.create(cart = cart , product = product)
+            size_variant = SizeVariant.objects.get(size_name = variant)
+            cart_item.size_variant = size_variant
+            cart_item.save()
+            # int(quantity) = int 1
+            quantity -= 1
+        print("saved cart item")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

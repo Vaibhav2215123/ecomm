@@ -10,6 +10,8 @@
                         <thead class="text-muted" id="cartThead">
                             <tr class="small text-uppercase">
                                 <th scope="col">Product</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Size</th>
                                 <th scope="col" width="120">Quantity</th>
                                 <th scope="col" width="120">Price</th>
                                 <th scope="col" class="text-right" width="200"> </th>
@@ -22,40 +24,35 @@
                                 </td>
                             </tr>
                             {% for cart_item in cart.cart_items.all %}
-                                {% if '{{request.user.profile.get_cart_count}}' is 0 %}
-                                <tr>Cart is Empty</tr>
-                                {% else %}
-                                <tr>
-                                    <td>
-                                        <figure class="itemside">
-                                            <div class="aside"><img src="/media/{{cart_item.product.product_images.first.image}}"
-                                                    class="img-sm">
-                                            </div>
-                                            <figcaption class="info">
-                                                <a href="#" class="title text-dark"> <b>{{ cart_item.product.product_name }}</b> </a>
-                                                {% if "{{ cart_item.size_variant }}" is None %}
-                                                <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
-                                                {% endif %}
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td>
-                                        <div class="form-control" fdprocessedid="0fv9xl">
-                                            {{request.user.profile.get_cart_count}}
+                            <tr>
+                                <td>
+                                    <figure class="itemside">
+                                        <div class="aside"><img
+                                                src="/media/{{cart_item.product.product_images.first.image}}"
+                                                class="img-sm">
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
-                                        </div> <!-- price-wrap .// -->
-                                    </td>
-                                    <td class="text-right">
-                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
-                                            data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
-                                        <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
-                                    </td>
-                                </tr>
-                                {% endif %}
+                                        <figcaption class="info">
+                                            <a href="#" class="title text-dark"> {{ cart_item.product_description }} </a>
+                                            <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    <div class="btn btn-light w-100" fdprocessedid="0fv9xl">
+                                        {{ request.user.profile.get_cart_count }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
+                                    </div> <!-- price-wrap .// -->
+                                </td>
+                                <td class="text-right">
+                                    <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                        data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                    <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
+                                </td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -113,7 +110,7 @@
 </section>
 <script>
     emptyCart = document.getElementById("emptyCart")
-    cartThead = document.getElementById("cartThead") 
+    cartThead = document.getElementById("cartThead")
     cartTbody = document.getElementById("cartTbody")
     console.log(cartTbody.childElementCount)
     if (cartTbody.childElementCount > 1) {
@@ -122,7 +119,7 @@
     else {
         cartThead.style.display = "none";
         emptyCart.style.display = "flex";
-        emptyCart.classList.add("d-flex ","align-items-center" ,"justify-content-center")
+        emptyCart.classList.add("d-flex ", "align-items-center", "justify-content-center")
     }
 </script>
 {% endblock %}
