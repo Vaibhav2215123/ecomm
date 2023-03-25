@@ -10,6 +10,8 @@
                         <thead class="text-muted" id="cartThead">
                             <tr class="small text-uppercase">
                                 <th scope="col">Product</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Size</th>
                                 <th scope="col" width="120">Quantity</th>
                                 <th scope="col" width="120">Price</th>
                                 <th scope="col" class="text-right" width="200"> </th>
@@ -96,12 +98,8 @@
 
                         <dl class="dlist-align">
                             <dt>Total:</dt>
-                            <dd class="text-right  h5"><strong>{{cart.get_cart_total}}</strong></dd>
+                            <dd class="text-right  h5"><strong>{{cart.get_cart_total}} &#8377</strong></dd>
                         </dl>
-                        <hr>
-                        <p class="text-center mb-3">
-                            <img src="/media/images/misc/payments.png" height="26">
-                        </p>
 
                     </div> <!-- card-body.// -->
                 </div> <!-- card .// -->
@@ -112,7 +110,7 @@
 </section>
 <script>
     emptyCart = document.getElementById("emptyCart")
-    cartThead = document.getElementById("cartThead") 
+    cartThead = document.getElementById("cartThead")
     cartTbody = document.getElementById("cartTbody")
     console.log(cartTbody.childElementCount)
     if (cartTbody.childElementCount > 1) {
@@ -121,7 +119,7 @@
     else {
         cartThead.style.display = "none";
         emptyCart.style.display = "flex";
-        emptyCart.classList.add("d-flex ","align-items-center" ,"justify-content-center")
+        emptyCart.classList.add("d-flex ", "align-items-center", "justify-content-center")
     }
 </script>
 {% endblock %}
