@@ -18,9 +18,11 @@ def get_product(request , slug):
 
         if request.GET.get('size'):
             size = request.GET.get('size')
+            quantity = request.GET.get('quantity')
             price = product.get_product_price_by_size(size)
             context['selected_size'] = size
             context['updated_price'] = price
+            context['selected_quantity'] = quantity
         print(request)
         return render(request , 'product/product.html' , context = context)
     
