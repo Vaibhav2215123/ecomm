@@ -22,35 +22,40 @@
                                 </td>
                             </tr>
                             {% for cart_item in cart.cart_items.all %}
-                            <tr>
-                                <td>
-                                    <figure class="itemside">
-                                        <div class="aside"><img
-                                                src="/media/{{cart_item.product.product_images.first.image}}"
-                                                class="img-sm">
+                                {% if '{{request.user.profile.get_cart_count}}' is 0 %}
+                                <tr>Cart is Empty</tr>
+                                {% else %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside">
+                                            <div class="aside"><img src="/media/{{cart_item.product.product_images.first.image}}"
+                                                    class="img-sm">
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href="#" class="title text-dark"> <b>{{ cart_item.product.product_name }}</b> </a>
+                                                {% if "{{ cart_item.size_variant }}" is None %}
+                                                <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
+                                                {% endif %}
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <div class="form-control" fdprocessedid="0fv9xl">
+                                            {{request.user.profile.get_cart_count}}
                                         </div>
-                                        <figcaption class="info">
-                                            <a href="#" class="title text-dark"> {{ cart_item.product_description }} </a>
-                                            <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
-                                        </figcaption>
-                                    </figure>
-                                </td>
-                                <td>
-                                    <div class="btn btn-light w-100" fdprocessedid="0fv9xl">
-                                        {{ request.user.profile.get_cart_count }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="price-wrap">
-                                        <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
-                                    </div> <!-- price-wrap .// -->
-                                </td>
-                                <td class="text-right">
-                                    <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
-                                        data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
-                                    <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+                                    <td class="text-right">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                        <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
+                                    </td>
+                                </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
@@ -98,10 +103,6 @@
                             <dt>Total:</dt>
                             <dd class="text-right  h5"><strong>{{cart.get_cart_total}}</strong></dd>
                         </dl>
-                        <hr>
-                        <p class="text-center mb-3">
-                            <img src="/media/images/misc/payments.png" height="26">
-                        </p>
 
                     </div> <!-- card-body.// -->
                 </div> <!-- card .// -->

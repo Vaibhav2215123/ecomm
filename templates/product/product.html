@@ -11,7 +11,7 @@
         <aside class="col-md-6">
           <article class="gallery-wrap">
             <div class="img-big-wrap">
-              <div> <a href="#"><img src="/media/{{product.product_images.first.image}}"></a></div>
+              <div> <a href="#"><img id="photo" src="/media/{{product.product_images.first.image}}"></a></div>
             </div> <!-- slider-product.// -->
             <div class="thumbs-wrap">
               {% for image in product.product_images.all %}
@@ -133,6 +133,11 @@
     //   // alert("Quantity Must Be Atleast 1")
     // }
     // console.log(document.getElementById("quantity").value)
+  }
+
+  function onclick(file){
+    img = document.querySelector("#photo");
+    img.setAttribute("src",file);
   }
 </script>
 {% endblock %}
