@@ -31,23 +31,34 @@
                                                 src="/media/{{cart_item.product.product_images.first.image}}"
                                                 class="img-sm">
                                         </div>
-                                        <figcaption class="info">
-                                            <a href="#" class="title text-dark"> {{ cart_item.product_description }} </a>
-                                            <p class="text-muted small">{{ cart_item.size_variant.size_name }}</p>
-                                        </figcaption>
                                     </figure>
                                 </td>
                                 <td>
-                                    <div class="btn btn-light w-100" fdprocessedid="0fv9xl">
+                                    <a href="{% url 'get_product' cart_item.product.slug %}" class="title text-dark">
+                                        {{ cart_item.product.product_description }} 
+                                    </a>
+                                </td>
+                                <td>
+                                    <p class="text-muted medium fit-content">
+                                        {{ cart_item.size_variant.size_name }}
+                                    </p>
+                                </td>
+                                <td>
+                                    <div class="text-muted medium text-center">
                                         {{ request.user.profile.get_cart_count }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="price-wrap">
-                                        <var class="price"> {{ cart_item.size_variant.price }} &#8377</var>
+                                        {% if cart_item.size_variant %}
+                                        <div class="price"> {{ cart_item.size_variant.price }} &#8377</div>
+                                        {% else %}
+                                        <div class="price"> {{ cart_item.product.price }} &#8377</div>
+                                        {% endif %}
                                     </div> <!-- price-wrap .// -->
+
                                 </td>
-                                <td class="text-right">
+                                <td>
                                     <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
                                         data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
                                     <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
@@ -100,6 +111,10 @@
                             <dt>Total:</dt>
                             <dd class="text-right  h5"><strong>{{cart.get_cart_total}} &#8377</strong></dd>
                         </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="/media/images/misc/payments.png" height="26">
+                        </p>
 
                     </div> <!-- card-body.// -->
                 </div> <!-- card .// -->
